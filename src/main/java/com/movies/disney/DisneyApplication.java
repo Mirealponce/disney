@@ -25,7 +25,7 @@ public class DisneyApplication extends SpringBootServletInitializer {
 	@Bean
 	public CommandLineRunner datos(UserRepository userRepository){
 		return args -> {
-			Usuario usuario= new Usuario("mire",passwordEncoder().encode("123"));
+			Usuario usuario= new Usuario("mirealponce1407@gmail.com",passwordEncoder().encode("123"));
 			userRepository.save(usuario);
 		};
 	}
