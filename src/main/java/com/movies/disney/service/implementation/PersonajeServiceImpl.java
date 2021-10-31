@@ -23,10 +23,6 @@ public class PersonajeServiceImpl implements PersonajeService {
         return personajeRepository.findAll();
     }
 
-    @Override
-    public Personaje updatePersonaje(Personaje personaje) {
-        return null;
-    }
 
     @Override
     public void deletePersonaje(Long id) {

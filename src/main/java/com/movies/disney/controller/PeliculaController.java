@@ -7,10 +7,7 @@ import com.movies.disney.service.interfaces.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -86,20 +83,38 @@ public class PeliculaController {
         return listaPeliculas.stream().filter(pelicula -> pelicula.getIdGenero().getIdGenero()==genre).collect(Collectors.toList());
     }
 
+    @RequestMapping(value = "/movies", params = {"order"})
+    @GetMapping
+    public List<Pelicula> peliculasOrder(@RequestParam ("order") Long order){
+        List<Pelicula> listaPeliculas=peliculaService.getPeliculas();
+        if(order.equals("DESC")){
+            return listaPeliculas.stream().sorted(Comparator.comparing(Pelicula::getFechaCreacion).reversed()).collect(Collectors.toList());
+
+        }else {
+            if(order.equals("ASC")){
+                return listaPeliculas.stream().sorted(Comparator.comparing(Pelicula::getFechaCreacion)).collect(Collectors.toList());
+
+            }
+        }
+
+        return null;
+
+    }
+
 
     @RequestMapping(value = "/movies")
     @GetMapping
     public List<Map<String, Object>> listaPeliculas(){
         List<Pelicula> listadoPeliculas = peliculaService.getPeliculas();
 
-        return listadoPeliculas.stream().map(pelicula ->recorrerPeliculas(pelicula)).collect(Collectors.toList());
+        return listadoPeliculas.stream().map(pelicula ->dtoPeliculas(pelicula)).collect(Collectors.toList());
     }
-    public Map<String, Object> recorrerPeliculas(Pelicula pelicula){
-        Map<String, Object> mapa = new LinkedHashMap<>();
-        mapa.put("imagen", pelicula.getImagen());
-        mapa.put("titulo", pelicula.getTitulo());
-        mapa.put("fecha", pelicula.getFechaCreacion().toString());
-        return mapa;
+    public Map<String, Object> dtoPeliculas(Pelicula pelicula){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("imagen", pelicula.getImagen());
+        dto.put("titulo", pelicula.getTitulo());
+        dto.put("fecha", pelicula.getFechaCreacion().toString());
+        return dto;
     }
 
 
@@ -107,17 +122,17 @@ public class PeliculaController {
     @GetMapping
     public List<Map<String, Object>> detallePeliculas(){
         List<Pelicula> listapeliculas = peliculaService.getPeliculas();
-        return listapeliculas.stream().map(pelicula -> mapaPelicula(pelicula) ).collect(Collectors.toList());
+        return listapeliculas.stream().map(pelicula -> dtoDetailsPelicula(pelicula) ).collect(Collectors.toList());
     }
 
-    public Map<String, Object> mapaPelicula(Pelicula pelicula){
-        Map<String, Object> mapPeliculas = new LinkedHashMap<>();
-        mapPeliculas.put("imagen",pelicula.getImagen());
-        mapPeliculas.put("titulo", pelicula.getTitulo());
-        mapPeliculas.put("fecha",pelicula.getFechaCreacion());
-        mapPeliculas.put("calificacion",pelicula.getCalificacion());
-        mapPeliculas.put("Personajes",pelicula.getPeliculaPersonaje().stream().map(peliculaPersonaje -> peliculaPersonaje.getIdPersonaje().getName()).collect(Collectors.toList()));
-        return mapPeliculas;
+    public Map<String, Object> dtoDetailsPelicula(Pelicula pelicula){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("imagen",pelicula.getImagen());
+        dto.put("titulo", pelicula.getTitulo());
+        dto.put("fecha",pelicula.getFechaCreacion());
+        dto.put("calificacion",pelicula.getCalificacion());
+        dto.put("Personajes",pelicula.getPeliculaPersonaje().stream().map(peliculaPersonaje -> peliculaPersonaje.getIdPersonaje().getName()).collect(Collectors.toList()));
+        return dto;
     }
 
 

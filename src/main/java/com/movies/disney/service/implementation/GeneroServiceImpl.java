@@ -22,14 +22,10 @@ public class GeneroServiceImpl implements GeneroService {
         return generoRepository.findAll();
     }
 
-    @Override
-    public Genero updateGenero(Genero genero) {
-        return null;
-    }
 
     @Override
-    public boolean deleteGenero(Long id) {
-        return false;
+    public void deleteGenero(Long id) {
+        generoRepository.deleteById(id);
     }
 
     @Override

@@ -22,14 +22,11 @@ public class PeliculaServiceImpl implements PeliculaService {
         return peliculaRepository.findAll();
     }
 
-    @Override
-    public Pelicula updatePelicula(Pelicula pelicula) {
-        return null;
-    }
+
 
     @Override
-    public boolean deletePelicula(Long id) {
-        return false;
+    public void deletePelicula(Long id) {
+       peliculaRepository.deleteById(id);
     }
 
     @Override

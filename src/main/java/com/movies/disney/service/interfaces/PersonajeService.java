@@ -10,7 +10,6 @@ public interface PersonajeService {
 
     Personaje savePersonaje(Personaje personaje);
     List<Personaje> getPersonajes();
-    Personaje updatePersonaje(Personaje personaje);
     void deletePersonaje(Long id);
     Optional<Personaje> findPersonajeById(Long id);
     List<Personaje> findByName(String name);

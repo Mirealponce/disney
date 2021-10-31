@@ -82,7 +82,7 @@ public class PersonajeController {
 
         List<Personaje> listaPersonajes=personajeService.getPersonajes();
 
-        return  listaPersonajes.stream().map(personaje -> listPersonajes(personaje)).collect(Collectors.toList());
+        return  listaPersonajes.stream().map(personaje -> dtoPersonajes(personaje)).collect(Collectors.toList());
 
     }
     @RequestMapping(value = "/characters/details")
@@ -90,29 +90,29 @@ public class PersonajeController {
     public List<Map<String,Object>>detailsPersonajes(){
         List<Personaje> listaPersonajess= personajeService.getPersonajes();
 
-        return listaPersonajess.stream().map(personaje->detallePersonaje(personaje)).collect(Collectors.toList());
+        return listaPersonajess.stream().map(personaje->dtodetallePersonaje(personaje)).collect(Collectors.toList());
     }
 
 
 
-    public Map<String,Object> detallePersonaje(Personaje personaje){
-        List<Personaje> listadoPersonajes=personajeService.getPersonajes();
-        Map<String,Object> mapa= new LinkedHashMap<>();
-        mapa.put("imagenPersonaje",personaje.getImagen());
-        mapa.put("namePersonaje",personaje.getName());
-        mapa.put("age",personaje.getAge());
-        mapa.put("peso",personaje.getPeso());
-        mapa.put("historia",personaje.getHistoria());
-        mapa.put("Pelicula",personaje.getPeliculaPersonaje().stream().map(peliculaPersonaje -> peliculaPersonaje.getIdPelicula().getTitulo()).collect(Collectors.toList()));
+    public Map<String,Object> dtodetallePersonaje(Personaje personaje){
 
-        return mapa;
+        Map<String,Object> dto= new LinkedHashMap<>();
+        dto.put("imagenPersonaje",personaje.getImagen());
+        dto.put("namePersonaje",personaje.getName());
+        dto.put("age",personaje.getAge());
+        dto.put("peso",personaje.getPeso());
+        dto.put("historia",personaje.getHistoria());
+        dto.put("Pelicula",personaje.getPeliculaPersonaje().stream().map(peliculaPersonaje -> peliculaPersonaje.getIdPelicula().getTitulo()).collect(Collectors.toList()));
+
+        return dto;
     }
-    public Map<String,Object> listPersonajes(Personaje personaje){
-        Map<String, Object> mapa = new LinkedHashMap<>();
-        mapa.put("imagenPersonaje",personaje.getImagen());
-        mapa.put("namePersonaje",personaje.getName());
+    public Map<String,Object> dtoPersonajes(Personaje personaje){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("imagenPersonaje",personaje.getImagen());
+        dto.put("namePersonaje",personaje.getName());
 
-        return mapa;
+        return dto;
     }
 
 }

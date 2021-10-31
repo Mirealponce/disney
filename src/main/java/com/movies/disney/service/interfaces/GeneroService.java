@@ -5,7 +5,6 @@ import java.util.List;
 public interface GeneroService {
     Genero saveGenero(Genero genero);
     List<Genero> getGenero();
-    Genero updateGenero(Genero genero);
-    boolean deleteGenero(Long id);
+    void deleteGenero(Long id);
     Genero findGeneroById(Long id);
 }
